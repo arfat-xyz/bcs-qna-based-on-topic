@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ThemeProvider } from './lib/theme-context';
 import { getValidTopics, getTopicBySlug } from './lib/topics';
+import { PORTFOLIO_METADATA, getAuthorPersonSchema } from './lib/portfolio-metadata';
 import { Header } from './components/layout/header';
 import { Footer } from './components/layout/footer';
 import { Homepage } from './components/topics/homepage';
@@ -51,15 +52,29 @@ export default function App() {
 
   // Update dynamic page title & SEO metadata whenever slug changes
   useEffect(() => {
-    if (!currentSlug) {
-      document.title = 'Cognition - Interactive JSON Study Platform';
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute(
-          'content',
-          'A modern, interactive educational platform with dynamic JSON topic loading, expandable Q&A study cards, markdown revision notes, and immersive 3D visualizations.'
-        );
+    const updateMeta = (nameOrProperty: string, content: string, isProperty = false) => {
+      const attr = isProperty ? 'property' : 'name';
+      let el = document.querySelector(`meta[${attr}="${nameOrProperty}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, nameOrProperty);
+        document.head.appendChild(el);
       }
+      el.setAttribute('content', content);
+    };
+
+    if (!currentSlug) {
+      document.title = 'Cognition - Interactive JSON Study Platform | Arfatur Rahman';
+      const homeDesc =
+        'A modern, interactive educational platform with dynamic JSON topic loading, expandable Q&A study cards, markdown revision notes, and immersive 3D visualizations. Built by Arfatur Rahman.';
+      const ogImg = `${window.location.origin}/og-image.jpg`;
+      updateMeta('description', homeDesc);
+      updateMeta('og:title', 'Cognition - Interactive JSON Study Platform | Arfatur Rahman', true);
+      updateMeta('og:description', homeDesc, true);
+      updateMeta('og:image', ogImg, true);
+      updateMeta('twitter:title', 'Cognition - Interactive JSON Study Platform | Arfatur Rahman');
+      updateMeta('twitter:description', homeDesc);
+      updateMeta('twitter:image', ogImg);
       return;
     }
 
@@ -67,13 +82,20 @@ export default function App() {
     if (currentTopicData) {
       const heading = currentTopicData.topic.heading;
       const subheading = currentTopicData.topic.subheading || 'Interactive study notes and question cards.';
-      document.title = `${heading} | Cognition Study Platform`;
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute('content', `${subheading} - Study questions and answers.`);
-      }
+      const pageTitle = `${heading} | Cognition Study Platform (by Arfatur Rahman)`;
+      const pageDesc = `${subheading} - Study questions and answers. Engineered by Arfatur Rahman.`;
+      const ogImg = `${window.location.origin}/og-image.jpg`;
 
-      // Add educational structured data (Schema.org)
+      document.title = pageTitle;
+      updateMeta('description', pageDesc);
+      updateMeta('og:title', pageTitle, true);
+      updateMeta('og:description', pageDesc, true);
+      updateMeta('og:image', ogImg, true);
+      updateMeta('twitter:title', pageTitle);
+      updateMeta('twitter:description', pageDesc);
+      updateMeta('twitter:image', ogImg);
+
+      // Add educational structured data (Schema.org) with Author and Portfolio attribution
       let scriptTag = document.getElementById('cognition-schema') as HTMLScriptElement | null;
       if (!scriptTag) {
         scriptTag = document.createElement('script');
@@ -86,6 +108,17 @@ export default function App() {
         '@type': 'Quiz',
         name: heading,
         description: subheading,
+        author: getAuthorPersonSchema(),
+        publisher: {
+          '@type': 'Person',
+          name: PORTFOLIO_METADATA.authorName,
+          url: PORTFOLIO_METADATA.siteUrl,
+        },
+        provider: {
+          '@type': 'Organization',
+          name: 'Cognition Study Platform',
+          url: PORTFOLIO_METADATA.siteUrl,
+        },
         hasPart: currentTopicData.topic.items.map((item, idx) => ({
           '@type': 'Question',
           name: `Question ${idx + 1}`,

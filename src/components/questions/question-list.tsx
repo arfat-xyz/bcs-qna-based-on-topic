@@ -15,7 +15,7 @@ import type { QuestionItem } from '../../types/topic';
 import { QuestionCard } from './question-card';
 
 const PAGE_SIZE_OPTIONS = [5, 10, 15, 20] as const;
-const DEFAULT_PAGE_SIZE = 5;
+const DEFAULT_PAGE_SIZE = 20;
 
 /* ════════════════════════════════════════════════════════════════════════════
    URL query-param helpers — all params are synced to the URL so they survive

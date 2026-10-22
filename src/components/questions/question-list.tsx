@@ -126,7 +126,8 @@ export function QuestionList({ items, topicHeading }: QuestionListProps) {
   const [currentPage, setCurrentPage] = useState(initial.page);
   const [perPage, setPerPage] = useState<PageSizeOption>(initial.perPage);
   const [searchQuery, setSearchQuery] = useState(initial.q);
-  const [revealedState, setRevealedState] = useState<Record<string, boolean>>({});
+  // High-performance revealed Set (O(1) lookups, zero object allocation on single toggle)
+  const [revealedKeys, setRevealedKeys] = useState<Set<string>>(() => new Set());
 
   // Debounced search for URL sync
   const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -139,7 +140,7 @@ export function QuestionList({ items, topicHeading }: QuestionListProps) {
     setCurrentPage(params.page);
     setPerPage(params.perPage);
     setSearchQuery(params.q);
-    setRevealedState({});
+    setRevealedKeys(new Set());
   }, [topicHeading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /* ── Listen for browser back/forward ── */
@@ -183,13 +184,24 @@ export function QuestionList({ items, topicHeading }: QuestionListProps) {
   const pageItems = filteredItems.slice(pageStart, pageEnd);
 
   /* ── Key helpers ── */
-  const itemKey = (item: QuestionItem, shuffledIndex: number) =>
-    item.id != null ? String(item.id) : `idx-${shuffledIndex}`;
+  const itemKey = useCallback((item: QuestionItem, shuffledIndex: number) => {
+    return item.id != null ? String(item.id) : `idx-${shuffledIndex}`;
+  }, []);
 
-  const pageKeys = pageItems.map((item, i) => itemKey(item, pageStart + i));
-  const revealedOnPage = pageKeys.filter((k) => revealedState[k]).length;
+  const pageKeys = useMemo(() => {
+    return pageItems.map((item, i) => itemKey(item, pageStart + i));
+  }, [pageItems, pageStart, itemKey]);
+
+  const revealedOnPage = useMemo(() => {
+    let count = 0;
+    for (let i = 0; i < pageKeys.length; i++) {
+      if (revealedKeys.has(pageKeys[i])) count++;
+    }
+    return count;
+  }, [pageKeys, revealedKeys]);
+
   const allRevealedOnPage = pageItems.length > 0 && revealedOnPage === pageItems.length;
-  const totalRevealed = Object.values(revealedState).filter(Boolean).length;
+  const totalRevealed = revealedKeys.size;
 
   /* ── Navigation ── */
   const goToPage = useCallback(
@@ -228,36 +240,39 @@ export function QuestionList({ items, topicHeading }: QuestionListProps) {
     setParams({ q: '', page: 0 }, true);
   }, []);
 
-  /* ── Card actions ── */
-  const toggleSingle = (key: string) => {
-    setRevealedState((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const toggleAll = () => {
-    if (allRevealedOnPage) {
-      setRevealedState((prev) => {
-        const next = { ...prev };
-        pageKeys.forEach((k) => delete next[k]);
-        return next;
-      });
-    } else {
-      setRevealedState((prev) => {
-        const next = { ...prev };
-        pageKeys.forEach((k) => {
-          next[k] = true;
-        });
-        return next;
-      });
-    }
-  };
-
-  const resetPage = () => {
-    setRevealedState((prev) => {
-      const next = { ...prev };
-      pageKeys.forEach((k) => delete next[k]);
+  /* ── Ultra-fast O(1) single-card toggle (stable reference for React.memo) ── */
+  const toggleSingle = useCallback((key?: string) => {
+    if (!key) return;
+    setRevealedKeys((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) {
+        next.delete(key);
+      } else {
+        next.add(key);
+      }
       return next;
     });
-  };
+  }, []);
+
+  const toggleAll = useCallback(() => {
+    setRevealedKeys((prev) => {
+      const next = new Set(prev);
+      if (allRevealedOnPage) {
+        pageKeys.forEach((k) => next.delete(k));
+      } else {
+        pageKeys.forEach((k) => next.add(k));
+      }
+      return next;
+    });
+  }, [allRevealedOnPage, pageKeys]);
+
+  const resetPage = useCallback(() => {
+    setRevealedKeys((prev) => {
+      const next = new Set(prev);
+      pageKeys.forEach((k) => next.delete(k));
+      return next;
+    });
+  }, [pageKeys]);
 
   /* ── Empty state ── */
   if (!items || items.length === 0) {
@@ -434,16 +449,18 @@ export function QuestionList({ items, topicHeading }: QuestionListProps) {
         <div className="space-y-4">
           {pageItems.map((item, pageLocalIndex) => {
             const shuffledIndex = pageStart + pageLocalIndex;
-            const key = itemKey(item, shuffledIndex);
+            const key = pageKeys[pageLocalIndex];
+            const isRevealed = revealedKeys.has(key);
             return (
               <QuestionCard
                 key={`${topicHeading}-${key}`}
                 id={item.id != null ? String(item.id) : undefined}
+                cardKey={key}
                 index={shuffledIndex}
                 question={item.question}
                 answer={item.answer}
-                isRevealed={Boolean(revealedState[key])}
-                onToggle={() => toggleSingle(key)}
+                isRevealed={isRevealed}
+                onToggle={toggleSingle}
               />
             );
           })}

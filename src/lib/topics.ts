@@ -129,3 +129,31 @@ export function getAdjacentTopics(currentSlug: string): {
 
   return { prev, next };
 }
+
+/**
+ * Returns formatted JSON code strings and metadata for every discovered topic file.
+ */
+export function getAllRawTopicJSONs(): { slug: string; heading: string; jsonString: string }[] {
+  const list: { slug: string; heading: string; jsonString: string }[] = [];
+
+  for (const [filePath, rawModule] of Object.entries(topicModules)) {
+    const slug = extractSlugFromPath(filePath);
+    const rawData =
+      rawModule && typeof rawModule === 'object' && 'default' in rawModule
+        ? (rawModule as { default: unknown }).default
+        : rawModule;
+
+    let heading = slug;
+    if (rawData && typeof rawData === 'object' && 'heading' in rawData && typeof (rawData as Record<string, unknown>).heading === 'string') {
+      heading = (rawData as Record<string, unknown>).heading as string;
+    }
+
+    list.push({
+      slug,
+      heading,
+      jsonString: JSON.stringify(rawData, null, 2),
+    });
+  }
+
+  return list.sort((a, b) => a.heading.localeCompare(b.heading));
+}

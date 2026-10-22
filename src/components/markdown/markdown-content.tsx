@@ -16,16 +16,16 @@ export function MarkdownContent({ content, topicHeading }: MarkdownContentProps)
   return (
     <section
       aria-labelledby="study-notes-heading"
-      className="mt-12 pt-10 border-t border-neutral-200 dark:border-neutral-800"
+      className="mt-8 sm:mt-12 pt-6 sm:pt-10 border-t border-neutral-200 dark:border-neutral-800"
     >
-      <div className="flex items-center gap-2.5 mb-6">
-        <div className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-400">
+      <div className="flex items-center gap-2.5 mb-5 sm:mb-6">
+        <div className="p-2 rounded-xl bg-indigo-100 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-400 shrink-0">
           <BookOpen className="w-5 h-5" />
         </div>
         <div>
           <h2
             id="study-notes-heading"
-            className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-50 tracking-tight"
+            className="text-lg sm:text-xl md:text-2xl font-bold text-neutral-900 dark:text-neutral-50 tracking-tight"
           >
             Study Notes & Deep Dive
           </h2>
@@ -40,33 +40,33 @@ export function MarkdownContent({ content, topicHeading }: MarkdownContentProps)
           remarkPlugins={[remarkGfm]}
           components={{
             h1: ({ children }) => (
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-neutral-100 mt-8 mb-4 tracking-tight border-b border-neutral-200 dark:border-neutral-800 pb-2">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-neutral-900 dark:text-neutral-100 mt-6 sm:mt-8 mb-3 sm:mb-4 tracking-tight border-b border-neutral-200 dark:border-neutral-800 pb-2 break-words">
                 {children}
               </h1>
             ),
             h2: ({ children }) => (
-              <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-neutral-100 mt-7 mb-3.5 tracking-tight flex items-center gap-2">
-                <span className="w-1.5 h-5 bg-indigo-600 rounded-full inline-block" />
-                {children}
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-neutral-900 dark:text-neutral-100 mt-5 sm:mt-7 mb-3 tracking-tight flex items-center gap-2 break-words">
+                <span className="w-1.5 h-4 sm:h-5 bg-indigo-600 rounded-full inline-block shrink-0" />
+                <span>{children}</span>
               </h2>
             ),
             h3: ({ children }) => (
-              <h3 className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100 mt-5 mb-2.5">
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-neutral-900 dark:text-neutral-100 mt-4 sm:mt-5 mb-2 break-words">
                 {children}
               </h3>
             ),
             p: ({ children }) => (
-              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed text-base mb-4 font-normal">
+              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed text-sm sm:text-base mb-4 font-normal break-words">
                 {children}
               </p>
             ),
             ul: ({ children }) => (
-              <ul className="list-disc list-outside pl-5 space-y-1.5 text-neutral-700 dark:text-neutral-300 mb-4">
+              <ul className="list-disc list-outside pl-5 space-y-1.5 text-neutral-700 dark:text-neutral-300 text-sm sm:text-base mb-4">
                 {children}
               </ul>
             ),
             ol: ({ children }) => (
-              <ol className="list-decimal list-outside pl-5 space-y-2 text-neutral-700 dark:text-neutral-300 mb-4">
+              <ol className="list-decimal list-outside pl-5 space-y-2 text-neutral-700 dark:text-neutral-300 text-sm sm:text-base mb-4">
                 {children}
               </ol>
             ),
@@ -74,13 +74,13 @@ export function MarkdownContent({ content, topicHeading }: MarkdownContentProps)
               <li className="leading-relaxed pl-1">{children}</li>
             ),
             blockquote: ({ children }) => (
-              <blockquote className="my-5 pl-4 sm:pl-5 border-l-4 border-indigo-500 bg-indigo-50/40 dark:bg-indigo-950/20 py-3 pr-4 rounded-r-xl italic text-neutral-800 dark:text-neutral-200">
+              <blockquote className="my-4 sm:my-5 pl-3.5 sm:pl-5 border-l-4 border-indigo-500 bg-indigo-50/40 dark:bg-indigo-950/20 py-2.5 sm:py-3 pr-3 sm:pr-4 rounded-r-xl italic text-neutral-800 dark:text-neutral-200 text-sm sm:text-base break-words">
                 {children}
               </blockquote>
             ),
             table: ({ children }) => (
-              <div className="my-6 overflow-x-auto rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-xs">
-                <table className="w-full text-left border-collapse text-sm">
+              <div className="my-5 sm:my-6 overflow-x-auto rounded-xl border border-neutral-200 dark:border-neutral-800 shadow-xs -mx-1 sm:mx-0">
+                <table className="w-full text-left border-collapse text-xs sm:text-sm min-w-[460px]">
                   {children}
                 </table>
               </div>
@@ -101,12 +101,12 @@ export function MarkdownContent({ content, topicHeading }: MarkdownContentProps)
               </tr>
             ),
             th: ({ children }) => (
-              <th className="py-3 px-4 font-semibold tracking-wider text-xs uppercase text-neutral-700 dark:text-neutral-300">
+              <th className="py-2.5 px-3 sm:py-3 sm:px-4 font-semibold tracking-wider text-[11px] sm:text-xs uppercase text-neutral-700 dark:text-neutral-300">
                 {children}
               </th>
             ),
             td: ({ children }) => (
-              <td className="py-3 px-4 text-neutral-700 dark:text-neutral-300">
+              <td className="py-2.5 px-3 sm:py-3 sm:px-4 text-neutral-700 dark:text-neutral-300 break-words">
                 {children}
               </td>
             ),

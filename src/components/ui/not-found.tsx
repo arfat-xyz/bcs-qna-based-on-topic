@@ -16,28 +16,28 @@ export function NotFound({
   onNavigateTopic,
 }: NotFoundProps) {
   return (
-    <div className="max-w-2xl mx-auto px-4 py-16 sm:py-24 text-center space-y-8">
-      <div className="inline-flex p-4 rounded-3xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50">
-        <AlertCircle className="w-12 h-12" />
+    <div className="max-w-2xl mx-auto px-4 py-12 sm:py-20 lg:py-24 text-center space-y-6 sm:space-y-8">
+      <div className="inline-flex p-3.5 sm:p-4 rounded-3xl bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50">
+        <AlertCircle className="w-10 h-10 sm:w-12 sm:h-12" />
       </div>
 
-      <div className="space-y-3">
-        <span className="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">
+      <div className="space-y-2 sm:space-y-3">
+        <span className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">
           404 Not Found
         </span>
-        <h1 className="text-3xl sm:text-4xl font-black text-neutral-900 dark:text-white tracking-tight">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-neutral-900 dark:text-white tracking-tight break-words">
           Topic "{invalidSlug}" Does Not Exist
         </h1>
-        <p className="text-base text-neutral-600 dark:text-neutral-400 max-w-md mx-auto leading-relaxed">
+        <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 max-w-md mx-auto leading-relaxed">
           We couldn't locate a valid JSON data file for this study topic. It may have been removed or renamed.
         </p>
       </div>
 
-      <div className="flex justify-center gap-3">
+      <div className="flex justify-center">
         <button
           type="button"
           onClick={onNavigateHome}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-sm transition-all"
+          className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-sm transition-all cursor-pointer"
         >
           <Home className="w-4 h-4" />
           <span>Return to Homepage</span>

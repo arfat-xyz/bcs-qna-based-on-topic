@@ -2,6 +2,18 @@ import { z } from 'zod';
 import type { Topic } from '../types/topic';
 
 export const QuestionItemSchema = z.object({
+  id: z
+    .union([z.string(), z.number()])
+    .optional()
+    .transform((val) => (val !== undefined ? String(val).trim() : undefined)),
+  questionId: z
+    .union([z.string(), z.number()])
+    .optional()
+    .transform((val) => (val !== undefined ? String(val).trim() : undefined)),
+  answerId: z
+    .union([z.string(), z.number()])
+    .optional()
+    .transform((val) => (val !== undefined ? String(val).trim() : undefined)),
   question: z
     .string()
     .trim()

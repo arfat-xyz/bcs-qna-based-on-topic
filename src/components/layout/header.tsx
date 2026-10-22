@@ -140,7 +140,7 @@ export function Header({
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-4 pt-3 pb-6 space-y-3">
+        <div className="md:hidden border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-4 pt-3 pb-6 space-y-3 max-h-[80vh] overflow-y-auto shadow-xl">
           <div className="flex items-center justify-between pb-2 border-b border-neutral-100 dark:border-neutral-900">
             <span className="text-xs font-bold uppercase tracking-wider text-neutral-400">Navigation</span>
           </div>
@@ -151,7 +151,7 @@ export function Header({
               onNavigateHome();
               setMobileMenuOpen(false);
             }}
-            className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
+            className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
               currentSlug === null
                 ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400'
                 : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-900'
@@ -164,7 +164,7 @@ export function Header({
             <div className="text-xs font-bold uppercase tracking-wider text-neutral-400 px-4 mb-1">
               Topics ({topics.length})
             </div>
-            <div className="space-y-1">
+            <div className="max-h-60 overflow-y-auto space-y-1 pr-1">
               {topics.map(({ slug, metadata }) => (
                 <button
                   key={slug}
@@ -173,14 +173,14 @@ export function Header({
                     onNavigateTopic(slug);
                     setMobileMenuOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between ${
+                  className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium flex items-center justify-between transition-colors cursor-pointer ${
                     currentSlug === slug
                       ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 font-semibold'
                       : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-900'
                   }`}
                 >
-                  <span>{metadata.heading}</span>
-                  <span className="text-xs text-neutral-400">
+                  <span className="truncate mr-2">{metadata.heading}</span>
+                  <span className="text-xs text-neutral-400 shrink-0">
                     {metadata.questionCount} Qs
                   </span>
                 </button>

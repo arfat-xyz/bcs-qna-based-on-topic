@@ -10,9 +10,9 @@ interface FooterProps {
 
 export function Footer({ topics, onNavigateTopic, onNavigateHome }: FooterProps) {
   return (
-    <footer className="w-full border-t border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-950/70 py-12 px-4 sm:px-6 lg:px-8 mt-20 transition-colors">
-      <div className="max-w-7xl mx-auto space-y-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-neutral-200/60 dark:border-neutral-800/60">
+    <footer className="w-full border-t border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-950/70 py-10 sm:py-12 px-4 sm:px-6 lg:px-8 mt-14 sm:mt-20 lg:mt-24 transition-colors">
+      <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 pb-8 border-b border-neutral-200/60 dark:border-neutral-800/60">
           {/* Brand Col */}
           <div className="md:col-span-5 space-y-3">
             <div className="flex items-center gap-2.5">

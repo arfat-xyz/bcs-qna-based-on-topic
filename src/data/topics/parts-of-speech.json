@@ -3,16 +3,19 @@
   "subheading": "The eight traditional categories of English words",
   "items": [
     {
-      "question": "What are the eight parts of speech?",
-      "answer": "Noun, pronoun, verb, adjective, adverb, preposition, conjunction, and interjection."
+      "id": "pos-1",
+      "question": "What are the **eight parts of speech**?",
+      "answer": "The eight parts of speech are:\n\n1. **Noun** — names a person, place, thing, or idea\n2. **Pronoun** — replaces a noun\n3. **Verb** — expresses action or state\n4. **Adjective** — describes a noun or pronoun\n5. **Adverb** — modifies a verb, adjective, or another adverb\n6. **Preposition** — shows a relationship between words\n7. **Conjunction** — connects words, phrases, or clauses\n8. **Interjection** — expresses sudden emotion"
     },
     {
-      "question": "What is a noun?",
-      "answer": "A noun names a person, place, thing, or idea. Examples include teacher, Dhaka, book, and honesty."
+      "id": "pos-2",
+      "question": "What is a **noun**?",
+      "answer": "A noun names a **person, place, thing, or idea**.\n\n**Examples:** `teacher`, `Dhaka`, `book`, `honesty`"
     },
     {
-      "question": "What is a pronoun?",
-      "answer": "A pronoun replaces a noun to avoid repetition. Examples include I, you, he, she, it, we, and they."
+      "id": "pos-3",
+      "question": "What is a **pronoun**?",
+      "answer": "A pronoun **replaces a noun** to avoid repetition.\n\n**Examples:** `I`, `you`, `he`, `she`, `it`, `we`, `they`"
     }
   ],
   "content": "## The Eight Parts of Speech\n\n1. **Noun:** Names a person, place, thing, or idea.\n2. **Pronoun:** Replaces a noun.\n3. **Verb:** Expresses an action or state.\n4. **Adjective:** Describes a noun or pronoun.\n5. **Adverb:** Modifies a verb, adjective, or another adverb.\n6. **Preposition:** Shows a relationship between words.\n7. **Conjunction:** Connects words, phrases, or clauses.\n8. **Interjection:** Expresses a sudden emotion.\n\n## Example\n\nIn the sentence *She sings beautifully*, **she** is a pronoun, **sings** is a verb, and **beautifully** is an adverb."

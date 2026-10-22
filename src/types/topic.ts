@@ -3,6 +3,9 @@
  */
 
 export interface QuestionItem {
+  id?: string;
+  questionId?: string;
+  answerId?: string;
   question: string;
   answer: string;
 }

@@ -63,11 +63,20 @@ export default function App() {
       el.setAttribute('content', content);
     };
 
+    const isPublicHttps =
+      typeof window !== 'undefined' &&
+      window.location.protocol === 'https:' &&
+      !window.location.hostname.includes('localhost') &&
+      !window.location.hostname.includes('127.0.0.1');
+
+    const ogImg = isPublicHttps
+      ? `${window.location.origin}/og-image.jpg`
+      : 'https://i.ibb.co/RHyk2rm/Arfatur-Rahman.jpg';
+
     if (!currentSlug) {
       document.title = 'Cognition - Interactive JSON Study Platform | Arfatur Rahman';
       const homeDesc =
         'A modern, interactive educational platform with dynamic JSON topic loading, expandable Q&A study cards, markdown revision notes, and immersive 3D visualizations. Built by Arfatur Rahman.';
-      const ogImg = `${window.location.origin}/og-image.jpg`;
       updateMeta('description', homeDesc);
       updateMeta('og:title', 'Cognition - Interactive JSON Study Platform | Arfatur Rahman', true);
       updateMeta('og:description', homeDesc, true);
@@ -84,7 +93,6 @@ export default function App() {
       const subheading = currentTopicData.topic.subheading || 'Interactive study notes and question cards.';
       const pageTitle = `${heading} | Cognition Study Platform (by Arfatur Rahman)`;
       const pageDesc = `${subheading} - Study questions and answers. Engineered by Arfatur Rahman.`;
-      const ogImg = `${window.location.origin}/og-image.jpg`;
 
       document.title = pageTitle;
       updateMeta('description', pageDesc);

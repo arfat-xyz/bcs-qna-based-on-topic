@@ -14,8 +14,9 @@ import {
 import type { QuestionItem } from '../../types/topic';
 import { QuestionCard } from './question-card';
 
-const PAGE_SIZE_OPTIONS = [5, 10, 15, 20] as const;
-const DEFAULT_PAGE_SIZE = 20;
+export type PageSizeOption = 5 | 10 | 15 | 20 | 'all';
+const PAGE_SIZE_OPTIONS: readonly PageSizeOption[] = [5, 10, 15, 20, 'all'] as const;
+const DEFAULT_PAGE_SIZE: PageSizeOption = 20;
 
 /* ════════════════════════════════════════════════════════════════════════════
    URL query-param helpers — all params are synced to the URL so they survive
@@ -24,7 +25,7 @@ const DEFAULT_PAGE_SIZE = 20;
    Params:  ?page=2&perPage=10&q=searchterm
    ════════════════════════════════════════════════════════════════════════ */
 
-function getParams(): { page: number; perPage: number; q: string } {
+function getParams(): { page: number; perPage: PageSizeOption; q: string } {
   const sp = new URLSearchParams(window.location.search);
 
   const rawPage = sp.get('page');
@@ -34,10 +35,15 @@ function getParams(): { page: number; perPage: number; q: string } {
       : 0;
 
   const rawPP = sp.get('perPage');
-  const perPage =
-    rawPP !== null && PAGE_SIZE_OPTIONS.includes(parseInt(rawPP, 10) as (typeof PAGE_SIZE_OPTIONS)[number])
-      ? parseInt(rawPP, 10)
-      : DEFAULT_PAGE_SIZE;
+  let perPage: PageSizeOption = DEFAULT_PAGE_SIZE;
+  if (rawPP === 'all') {
+    perPage = 'all';
+  } else if (rawPP !== null) {
+    const parsed = parseInt(rawPP, 10);
+    if (parsed === 5 || parsed === 10 || parsed === 15 || parsed === 20) {
+      perPage = parsed as PageSizeOption;
+    }
+  }
 
   const q = sp.get('q') ?? '';
 
@@ -45,7 +51,7 @@ function getParams(): { page: number; perPage: number; q: string } {
 }
 
 function setParams(
-  updates: Partial<{ page: number; perPage: number; q: string }>,
+  updates: Partial<{ page: number; perPage: PageSizeOption; q: string }>,
   replace = false,
 ) {
   const url = new URL(window.location.href);
@@ -118,7 +124,7 @@ export function QuestionList({ items, topicHeading }: QuestionListProps) {
   /* ── State from URL ── */
   const initial = useRef(getParams()).current;
   const [currentPage, setCurrentPage] = useState(initial.page);
-  const [perPage, setPerPage] = useState(initial.perPage);
+  const [perPage, setPerPage] = useState<PageSizeOption>(initial.perPage);
   const [searchQuery, setSearchQuery] = useState(initial.q);
   const [revealedState, setRevealedState] = useState<Record<string, boolean>>({});
 
@@ -161,9 +167,10 @@ export function QuestionList({ items, topicHeading }: QuestionListProps) {
   }, [shuffledItems, searchQuery]);
 
   /* ── Pagination math ── */
-  const totalPages = Math.max(1, Math.ceil(filteredItems.length / perPage));
+  const effectivePageSize = perPage === 'all' ? Math.max(1, filteredItems.length) : perPage;
+  const totalPages = Math.max(1, Math.ceil(filteredItems.length / effectivePageSize));
   const clampedPage = Math.min(currentPage, totalPages - 1);
-  // Auto-clamp if page overflows (e.g. search narrowed results)
+  // Auto-clamp if page overflows (e.g. search narrowed results or switched to 'all')
   useEffect(() => {
     if (clampedPage !== currentPage) {
       setCurrentPage(clampedPage);
@@ -171,8 +178,8 @@ export function QuestionList({ items, topicHeading }: QuestionListProps) {
     }
   }, [clampedPage, currentPage]);
 
-  const pageStart = clampedPage * perPage;
-  const pageEnd = pageStart + perPage;
+  const pageStart = clampedPage * effectivePageSize;
+  const pageEnd = pageStart + effectivePageSize;
   const pageItems = filteredItems.slice(pageStart, pageEnd);
 
   /* ── Key helpers ── */
@@ -197,7 +204,7 @@ export function QuestionList({ items, topicHeading }: QuestionListProps) {
 
   /* ── Per-page change ── */
   const handlePerPageChange = useCallback(
-    (newSize: number) => {
+    (newSize: PageSizeOption) => {
       setPerPage(newSize);
       setCurrentPage(0);
       setParams({ perPage: newSize, page: 0 });
@@ -377,11 +384,11 @@ export function QuestionList({ items, topicHeading }: QuestionListProps) {
                       ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
                       : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700'
                   }`}
-                  title={`Show ${size} cards per page`}
-                  aria-label={`${size} cards per page`}
+                  title={size === 'all' ? 'Show all questions on a single page' : `Show ${size} cards per page`}
+                  aria-label={size === 'all' ? 'Show all cards' : `${size} cards per page`}
                   aria-pressed={perPage === size}
                 >
-                  {size}
+                  {size === 'all' ? 'All' : size}
                 </button>
               ))}
             </div>
@@ -522,9 +529,18 @@ export function QuestionList({ items, topicHeading }: QuestionListProps) {
       {/* ── Page range info ── */}
       {filteredItems.length > 0 && (
         <p className="text-center text-[11px] text-neutral-400 dark:text-neutral-600 pb-1">
-          Showing cards {pageStart + 1}–{Math.min(pageEnd, filteredItems.length)} of{' '}
-          {filteredItems.length}
-          {searchQuery.trim() && ` (filtered from ${shuffledItems.length})`}
+          {perPage === 'all' ? (
+            <>
+              Showing all {filteredItems.length} {filteredItems.length === 1 ? 'card' : 'cards'}
+              {searchQuery.trim() && ` (filtered from ${shuffledItems.length})`}
+            </>
+          ) : (
+            <>
+              Showing cards {pageStart + 1}–{Math.min(pageEnd, filteredItems.length)} of{' '}
+              {filteredItems.length}
+              {searchQuery.trim() && ` (filtered from ${shuffledItems.length})`}
+            </>
+          )}
         </p>
       )}
     </section>

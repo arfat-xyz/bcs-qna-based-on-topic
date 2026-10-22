@@ -18,7 +18,7 @@ export const PORTFOLIO_METADATA = {
   // Primary Domains & Links
   siteUrl: "https://www.arfat.app",
   authorSEOLink: "https://www.linkedin.com/in/arfat-rahman/",
-  previewImage: "/og-image.jpg",
+  previewImage: "https://i.ibb.co/RHyk2rm/Arfatur-Rahman.jpg",
   authorPhoto: "/img/me.webp",
 
   // Social Handles & Links

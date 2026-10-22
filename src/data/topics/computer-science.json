@@ -1,0 +1,23 @@
+{
+  "heading": "Computer Science Fundamentals",
+  "subheading": "Core concepts in algorithms, data structures, and computing",
+  "items": [
+    {
+      "question": "What is the difference between a Stack and a Queue?",
+      "answer": "A Stack follows the Last-In, First-Out (LIFO) principle, where elements are added and removed from the top. A Queue follows First-In, First-Out (FIFO), where elements enter at the rear and exit from the front."
+    },
+    {
+      "question": "What is Big-O notation?",
+      "answer": "Big-O notation describes the upper bound of an algorithm's runtime or space requirements as the input size grows toward infinity. For example, O(1) is constant time, O(n) is linear time, and O(log n) is logarithmic time."
+    },
+    {
+      "question": "How does binary search achieve O(log n) time complexity?",
+      "answer": "Binary search requires a sorted array. At each step, it compares the target with the median element, effectively dividing the remaining search space by half until the target is found or bounds cross."
+    },
+    {
+      "question": "What is idempotency in API design?",
+      "answer": "An idempotent operation produces the same result no matter how many times it is executed. For example, HTTP GET, PUT, and DELETE are idempotent, whereas POST is typically non-idempotent."
+    }
+  ],
+  "content": "## Common Time Complexities\n\n| Notation | Name | Typical Example |\n|---|---|---|\n| O(1) | Constant | Array index lookup |\n| O(log n) | Logarithmic | Binary search in sorted array |\n| O(n) | Linear | Finding min/max in unsorted list |\n| O(n log n) | Linearithmic | Merge sort, Quick sort (average) |\n| O(n²) | Quadratic | Nested loop bubble sort |\n\n## Key Architectural Principles\n\n1. **Separation of Concerns:** Keep presentation, business logic, and data storage distinct.\n2. **KISS (Keep It Simple, Stupid):** Avoid premature optimization.\n3. **DRY (Don't Repeat Yourself):** Abstract common logic into reusable modules.\n\n```typescript\n// Binary search implementation example in TypeScript\nfunction binarySearch(arr: number[], target: number): number {\n  let left = 0;\n  let right = arr.length - 1;\n  while (left <= right) {\n    const mid = Math.floor((left + right) / 2);\n    if (arr[mid] === target) return mid;\n    if (arr[mid] < target) left = mid + 1;\n    else right = mid - 1;\n  }\n  return -1;\n}\n```"
+}

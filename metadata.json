@@ -1,0 +1,6 @@
+{
+  "name": "Cognition - Interactive JSON Study Platform",
+  "description": "A modern, interactive educational platform with dynamic JSON topic loading, expandable Q&A study cards, markdown revision notes, and immersive 3D visualizations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

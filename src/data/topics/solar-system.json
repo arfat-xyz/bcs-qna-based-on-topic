@@ -1,0 +1,19 @@
+{
+  "heading": "The Solar System",
+  "subheading": "Planets, celestial bodies, and cosmic dynamics",
+  "items": [
+    {
+      "question": "Which planet in our solar system has the most moons?",
+      "answer": "Saturn holds the record with over 140 confirmed natural satellites, followed closely by Jupiter with 95 confirmed moons."
+    },
+    {
+      "question": "What separates the inner terrestrial planets from the outer gas giants?",
+      "answer": "The Main Asteroid Belt, located between the orbits of Mars and Jupiter, contains hundreds of thousands of rocky bodies including the dwarf planet Ceres."
+    },
+    {
+      "question": "Why does Venus experience higher surface temperatures than Mercury despite being farther from the Sun?",
+      "answer": "Venus possesses an extremely dense atmosphere composed of 96% carbon dioxide with sulfuric acid clouds, creating a runaway greenhouse effect that traps heat and maintains surface temperatures around 465°C (869°F)."
+    }
+  ],
+  "content": "## Planetary Order from the Sun\n\n1. **Mercury** - Smallest planet, extreme temperature swings\n2. **Venus** - Hottest planet, runaway greenhouse atmosphere\n3. **Earth** - Only known world harboring biological life\n4. **Mars** - The Red Planet, home to Olympus Mons\n5. **Jupiter** - Largest planet, Great Red Spot storm system\n6. **Saturn** - Elaborate ring system made of water ice and rock\n7. **Uranus** - Ice giant with an unusual 98-degree axial tilt\n8. **Neptune** - Farthest major planet with the fastest supersonic winds\n\n> \"Somewhere, something incredible is waiting to be known.\" — Carl Sagan"
+}

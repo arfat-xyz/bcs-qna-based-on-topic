@@ -109,6 +109,7 @@ export default function App() {
 
   const navigateToTopic = useCallback((slug: string) => {
     setCurrentSlug(slug);
+    // Clear any leftover ?page= param when switching topics
     window.history.pushState(null, '', `/topics/${slug}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);

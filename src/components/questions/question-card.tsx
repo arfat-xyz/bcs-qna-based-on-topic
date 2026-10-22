@@ -65,7 +65,7 @@ export function QuestionCard({
           <div className="flex-1 min-w-0 pt-0.5">
             <h3
               id={effectiveQuestionId}
-              className="text-sm sm:text-base md:text-lg font-semibold text-neutral-900 dark:text-neutral-100 leading-snug tracking-tight break-words"
+              className="text-sm sm:text-base md:text-lg font-medium text-neutral-700 dark:text-neutral-200 leading-snug tracking-tight break-words"
             >
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}

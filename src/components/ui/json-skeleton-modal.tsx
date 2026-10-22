@@ -28,10 +28,12 @@ const STARTER_TEMPLATE = `{
   "subheading": "Essential concepts and practice question cards with Markdown support",
   "items": [
     {
+      "id": "module-1",
       "question": "What is the difference between \`let\` and \`const\` in **JavaScript**?",
       "answer": "**\`const\`** creates a block-scoped constant reference, whereas **\`let\`** allows variable reassignment.\\n\\n- **\`const\`**: Cannot be reassigned (though internal object properties can be mutated)\\n- **\`let\`**: Reassignable block-scoped variable\\n\\n\`\`\`javascript\\nconst user = { name: 'Alex' };\\nuser.name = 'Sam'; // Allowed property mutation\\n\`\`\`"
     },
     {
+      "id": "module-2",
       "question": "What is an **idempotent** HTTP method?",
       "answer": "An idempotent method can be called multiple times without producing different side effects:\\n\\n- **Idempotent**: \`GET\`, \`PUT\`, \`DELETE\`, \`HEAD\`\\n- **Non-idempotent**: \`POST\` (creates new resources on every call)"
     }
@@ -43,10 +45,12 @@ const MINIMAL_TEMPLATE = `{
   "heading": "Quick Practice Module",
   "items": [
     {
+      "id": "q-1",
       "question": "What is the definition of this term?",
       "answer": "A clear, concise definition of the term."
     },
     {
+      "id": "q-2",
       "question": "How is it applied in practice?",
       "answer": "Step-by-step application guidance."
     }

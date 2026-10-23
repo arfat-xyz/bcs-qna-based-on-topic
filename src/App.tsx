@@ -63,44 +63,101 @@ export default function App() {
       el.setAttribute('content', content);
     };
 
+    const updateLink = (rel: string, href: string) => {
+      let el = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null;
+      if (!el) {
+        el = document.createElement('link');
+        el.setAttribute('rel', rel);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('href', href);
+    };
+
     const isPublicHttps =
       typeof window !== 'undefined' &&
       window.location.protocol === 'https:' &&
       !window.location.hostname.includes('localhost') &&
       !window.location.hostname.includes('127.0.0.1');
 
+    const baseUrl = isPublicHttps ? window.location.origin : PORTFOLIO_METADATA.siteUrl;
+
     const ogImg = isPublicHttps
       ? `${window.location.origin}/og-image.jpg`
       : 'https://i.ibb.co/RHyk2rm/Arfatur-Rahman.jpg';
 
     if (!currentSlug) {
-      document.title = 'Cognition - Interactive JSON Study Platform | Arfatur Rahman';
+      // ─── Homepage Metadata ───
+      const homeTitle = 'Cognition - Interactive JSON Study Platform | Arfatur Rahman';
       const homeDesc =
         'A modern, interactive educational platform with dynamic JSON topic loading, expandable Q&A study cards, markdown revision notes, and immersive 3D visualizations. Built by Arfatur Rahman.';
+      const homeUrl = `${baseUrl}/`;
+
+      document.title = homeTitle;
       updateMeta('description', homeDesc);
-      updateMeta('og:title', 'Cognition - Interactive JSON Study Platform | Arfatur Rahman', true);
+      updateMeta('keywords', PORTFOLIO_METADATA.keywords.join(', '));
+      updateLink('canonical', homeUrl);
+
+      updateMeta('og:title', homeTitle, true);
       updateMeta('og:description', homeDesc, true);
+      updateMeta('og:url', homeUrl, true);
+      updateMeta('og:type', 'website', true);
       updateMeta('og:image', ogImg, true);
-      updateMeta('twitter:title', 'Cognition - Interactive JSON Study Platform | Arfatur Rahman');
+
+      updateMeta('twitter:title', homeTitle);
       updateMeta('twitter:description', homeDesc);
+      updateMeta('twitter:url', homeUrl);
       updateMeta('twitter:image', ogImg);
+
+      // Clean or reset schema for homepage
+      let scriptTag = document.getElementById('cognition-schema') as HTMLScriptElement | null;
+      if (scriptTag) {
+        scriptTag.textContent = JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: 'Cognition - Interactive JSON Study Platform',
+          url: homeUrl,
+          description: homeDesc,
+          author: getAuthorPersonSchema(),
+          creator: getAuthorPersonSchema(),
+        });
+      }
       return;
     }
 
     const currentTopicData = getTopicBySlug(currentSlug);
     if (currentTopicData) {
+      // ─── Topic Page Metadata ───
       const heading = currentTopicData.topic.heading;
-      const subheading = currentTopicData.topic.subheading || 'Interactive study notes and question cards.';
+      const subheading =
+        currentTopicData.topic.subheading || 'Interactive study notes and question cards.';
       const pageTitle = `${heading} | Cognition Study Platform (by Arfatur Rahman)`;
       const pageDesc = `${subheading} - Study questions and answers. Engineered by Arfatur Rahman.`;
+      const topicUrl = `${baseUrl}/topics/${currentSlug}`;
+      const topicKeywords = [
+        heading,
+        subheading,
+        currentSlug,
+        'Study Questions',
+        'Quiz',
+        'Education',
+        'Arfatur Rahman',
+        'Cognition Platform',
+      ].join(', ');
 
       document.title = pageTitle;
       updateMeta('description', pageDesc);
+      updateMeta('keywords', topicKeywords);
+      updateLink('canonical', topicUrl);
+
       updateMeta('og:title', pageTitle, true);
       updateMeta('og:description', pageDesc, true);
+      updateMeta('og:url', topicUrl, true);
+      updateMeta('og:type', 'article', true);
       updateMeta('og:image', ogImg, true);
+
       updateMeta('twitter:title', pageTitle);
       updateMeta('twitter:description', pageDesc);
+      updateMeta('twitter:url', topicUrl);
       updateMeta('twitter:image', ogImg);
 
       // Add educational structured data (Schema.org) with Author and Portfolio attribution
@@ -116,6 +173,7 @@ export default function App() {
         '@type': 'Quiz',
         name: heading,
         description: subheading,
+        url: topicUrl,
         author: getAuthorPersonSchema(),
         publisher: {
           '@type': 'Person',
@@ -127,7 +185,7 @@ export default function App() {
           name: 'Cognition Study Platform',
           url: PORTFOLIO_METADATA.siteUrl,
         },
-        hasPart: currentTopicData.topic.items.map((item, idx) => ({
+        hasPart: currentTopicData.topic.items.slice(0, 100).map((item, idx) => ({
           '@type': 'Question',
           name: `Question ${idx + 1}`,
           text: item.question,
@@ -138,7 +196,19 @@ export default function App() {
         })),
       });
     } else {
-      document.title = 'Topic Not Found | Cognition Study Platform';
+      // ─── 404 Not Found Page Metadata ───
+      const notFoundTitle = 'Topic Not Found | Cognition Study Platform';
+      const notFoundDesc = 'The requested study topic was not found on Cognition Study Platform.';
+      const notFoundUrl = `${baseUrl}/404`;
+
+      document.title = notFoundTitle;
+      updateMeta('description', notFoundDesc);
+      updateLink('canonical', notFoundUrl);
+      updateMeta('og:title', notFoundTitle, true);
+      updateMeta('og:description', notFoundDesc, true);
+      updateMeta('og:url', notFoundUrl, true);
+      updateMeta('twitter:title', notFoundTitle);
+      updateMeta('twitter:description', notFoundDesc);
     }
   }, [currentSlug]);
 

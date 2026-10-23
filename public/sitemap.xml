@@ -1,32 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/</loc>
+    <loc>https://www.arfat.app/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>/topics/preposition</loc>
+    <loc>https://www.arfat.app/topics/bagdhara-examples-and-synonyms</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>/topics/parts-of-speech</loc>
+    <loc>https://www.arfat.app/topics/bangla-ek-kothai-prokash</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>/topics/idioms</loc>
+    <loc>https://www.arfat.app/topics/bangla-samash-topic</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>/topics/computer-science</loc>
+    <loc>https://www.arfat.app/topics/bangla-somarthok-shobdo-topic</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>/topics/solar-system</loc>
+    <loc>https://www.arfat.app/topics/english-prepositions-topic-updated</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.arfat.app/topics/foreign-words-in-bengali-word</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.arfat.app/topics/gk</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.arfat.app/topics/idioms</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.arfat.app/topics/international-organization</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.arfat.app/topics/strait</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

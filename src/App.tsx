@@ -7,6 +7,7 @@ import { Footer } from './components/layout/footer';
 import { Homepage } from './components/topics/homepage';
 import { TopicPage } from './components/topics/topic-page';
 import { NotFound } from './components/ui/not-found';
+import { FeedbackPopupModal } from './components/ui/feedback-popup-modal';
 
 /**
  * Extracts the topic slug from the current browser location (pathname or hash).
@@ -34,6 +35,31 @@ function parseCurrentSlug(): string | null {
 export default function App() {
   const [validTopics, setValidTopics] = useState(() => getValidTopics());
   const [currentSlug, setCurrentSlug] = useState<string | null>(parseCurrentSlug);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+
+  // 20-second automatic feedback/contact modal timer
+  useEffect(() => {
+    const STORAGE_KEY = 'cognition_feedback_dismissed_until';
+    try {
+      const dismissedUntil = localStorage.getItem(STORAGE_KEY);
+      if (dismissedUntil && Date.now() < Number(dismissedUntil)) {
+        // Within 1-hour cooldown period, do not auto-popup
+        return;
+      }
+    } catch {
+      // ignore
+    }
+
+    const timer = setTimeout(() => {
+      try {
+        const dismissed = localStorage.getItem(STORAGE_KEY);
+        if (dismissed && Date.now() < Number(dismissed)) return;
+      } catch {}
+      setContactModalOpen(true);
+    }, 20000); // 20 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Sync with browser URL changes
   useEffect(() => {
@@ -237,6 +263,7 @@ export default function App() {
           currentSlug={currentSlug}
           onNavigateHome={navigateToHome}
           onNavigateTopic={navigateToTopic}
+          onOpenContactModal={() => setContactModalOpen(true)}
         />
 
         <div className="flex-1">
@@ -267,6 +294,11 @@ export default function App() {
           topics={validTopics}
           onNavigateTopic={navigateToTopic}
           onNavigateHome={navigateToHome}
+        />
+
+        <FeedbackPopupModal
+          isOpen={contactModalOpen}
+          onClose={() => setContactModalOpen(false)}
         />
       </div>
     </ThemeProvider>

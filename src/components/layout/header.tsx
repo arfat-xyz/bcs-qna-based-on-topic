@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, Moon, Sun, Menu, X, Sparkles, Layers } from 'lucide-react';
+import { BookOpen, Moon, Sun, Menu, X, Sparkles, Layers, Mail } from 'lucide-react';
 import { useTheme } from '../../lib/theme-context';
 import type { TopicMetadata } from '../../types/topic';
 
@@ -8,6 +8,7 @@ interface HeaderProps {
   currentSlug: string | null;
   onNavigateHome: () => void;
   onNavigateTopic: (slug: string) => void;
+  onOpenContactModal?: () => void;
 }
 
 export function Header({
@@ -15,6 +16,7 @@ export function Header({
   currentSlug,
   onNavigateHome,
   onNavigateTopic,
+  onOpenContactModal,
 }: HeaderProps) {
   const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -111,6 +113,19 @@ export function Header({
 
         {/* Right Actions */}
         <div className="flex items-center gap-3">
+          {/* Contact / Feedback Trigger */}
+          {onOpenContactModal && (
+            <button
+              type="button"
+              onClick={onOpenContactModal}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold border border-indigo-200/80 dark:border-indigo-900/60 bg-indigo-50/70 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/70 transition-all cursor-pointer shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              title="Send feedback or contact Arfat"
+            >
+              <Mail className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+              <span className="hidden sm:inline">Contact</span>
+            </button>
+          )}
+
           {/* Theme Toggle Button */}
           <button
             type="button"
@@ -159,6 +174,20 @@ export function Header({
           >
             All Topics & Overview
           </button>
+
+          {onOpenContactModal && (
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenContactModal();
+              }}
+              className="w-full text-left px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 text-indigo-700 dark:text-indigo-300 bg-indigo-50/70 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-colors cursor-pointer"
+            >
+              <Mail className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+              <span>Contact / Send Feedback</span>
+            </button>
+          )}
 
           <div className="pt-2">
             <div className="text-xs font-bold uppercase tracking-wider text-neutral-400 px-4 mb-1">

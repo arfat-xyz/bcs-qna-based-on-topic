@@ -1,7 +1,15 @@
-import React from 'react';
-import { BookOpen, Sparkles, Code2, Globe, Github, Linkedin, ExternalLink } from 'lucide-react';
-import type { TopicMetadata } from '../../types/topic';
-import { PORTFOLIO_METADATA } from '../../lib/portfolio-metadata';
+import React from "react";
+import {
+  BookOpen,
+  Sparkles,
+  Code2,
+  Globe,
+  Github,
+  Linkedin,
+  ExternalLink,
+} from "lucide-react";
+import type { TopicMetadata } from "../../types/topic";
+import { PORTFOLIO_METADATA } from "../../lib/portfolio-metadata";
 
 interface FooterProps {
   topics: { slug: string; metadata: TopicMetadata }[];
@@ -9,7 +17,11 @@ interface FooterProps {
   onNavigateHome: () => void;
 }
 
-export function Footer({ topics, onNavigateTopic, onNavigateHome }: FooterProps) {
+export function Footer({
+  topics,
+  onNavigateTopic,
+  onNavigateHome,
+}: FooterProps) {
   return (
     <footer className="w-full border-t border-neutral-200/80 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-950/70 py-10 sm:py-12 px-4 sm:px-6 lg:px-8 mt-14 sm:mt-20 lg:mt-24 transition-colors">
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10">
@@ -25,7 +37,9 @@ export function Footer({ topics, onNavigateTopic, onNavigateHome }: FooterProps)
               </span>
             </div>
             <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 max-w-sm leading-relaxed">
-              A modern, JSON-driven educational application. Every topic is a separate validated JSON document rendered with interactive Q&A cards and Three.js spatial visuals.
+              A modern, JSON-driven educational application. Every topic is a
+              separate validated JSON document rendered with interactive Q&A
+              cards and Three.js spatial visuals.
             </p>
 
             {/* Creator / Portfolio Link Badge */}
@@ -116,7 +130,8 @@ export function Footer({ topics, onNavigateTopic, onNavigateHome }: FooterProps)
         {/* Bottom Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500 dark:text-neutral-500">
           <div>
-            &copy; {new Date().getFullYear()} Cognition Educational Platform. Developed by{' '}
+            &copy; {new Date().getFullYear()} Cognition Educational Platform.
+            Developed by{" "}
             <a
               href={PORTFOLIO_METADATA.siteUrl}
               target="_blank"
@@ -128,12 +143,12 @@ export function Footer({ topics, onNavigateTopic, onNavigateHome }: FooterProps)
             .
           </div>
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1">
+            {/* <span className="flex items-center gap-1">
               <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
               Three.js Accelerated
             </span>
             <span className="text-neutral-300 dark:text-neutral-700">•</span>
-            <span>Accessibility Compliant</span>
+            <span>Accessibility Compliant</span> */}
           </div>
         </div>
       </div>
